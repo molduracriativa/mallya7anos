@@ -3,65 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes</title>
+    
+    <title>Convite Mallya - 7 Anos</title>
+    <meta property="og:title" content="Você recebeu um convite especial!">
+    <meta property="og:description" content="Toque para abrir os detalhes deste dia incrível.">
+    <meta property="og:image" content="https://molduracriativa.github.io/aniversariante/capalink.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+
     <style>
         :root {
-            /* EDIÇÃO MANUAL IMPORTANTE */
-            --cor-botao-pulse: #e74c3c; /* Altere a cor do X aqui */
-            --imagem-fundo-p2: url('fundo2.png'); /* Se quiser imagem na pág 2 */
+            /* EDIÇÃO MANUAL RÁPIDA */
+            --cor-botao-x: #ff4757; 
+            --distancia-botoes-rodape: 200px;
+            --espaco-entre-botoes: 25px;
         }
 
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; background: #000; }
 
-        .container {
-            width: 100vw;
-            height: 100vh;
-            background-image: var(--imagem-fundo-p2);
-            background-size: cover;
-            background-color: #fff; 
-            position: relative;
+        /* Telas */
+        .page {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: none;
         }
 
-        /* Botão Pulse superior direito */
-        .btn-pulse {
+        .active { display: block; }
+
+        #principal { background-image: url('pagina.png'); }
+        #sugestao { background-image: url('pagina2.png'); background-color: #fff; }
+
+        /* Área dos Hotspots Página 1 */
+        .hotspot-container {
             position: absolute;
-            top: 25px;
-            right: 25px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--cor-botao-pulse);
+            bottom: var(--distancia-botoes-rodape);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: var(--espaco-entre-botoes);
+        }
+
+        .hotspot {
+            width: 70px; height: 70px;
+            background: rgba(255,255,255,0); /* Invisível para clicar na arte */
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Botão X (Página 2) */
+        .btn-x {
+            position: absolute;
+            top: 25px; right: 25px;
+            width: 50px; height: 50px;
+            background-color: var(--cor-botao-x);
             color: white;
             border-radius: 50%;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bold;
-            border: none;
+            align-items: center; justify-content: center;
+            text-decoration: none; font-weight: bold; font-size: 22px;
             cursor: pointer;
-            animation: pulse-effect 1.5s infinite;
+            box-shadow: 0 0 0 0 var(--cor-botao-x);
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse-effect {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--cor-botao-pulse); }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(0, 0, 0, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
         }
 
-        .copyright-hidden { display: none !important; visibility: hidden; pointer-events: none; }
+        .copyright { display: none !important; }
     </style>
 </head>
-<body>
+<body onclick="iniciarAudio()">
 
-    <div class="container">
-        <a href="index.html" class="btn-pulse">✕</a>
-        
+    <audio id="musica" loop>
+        <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="principal" class="page active">
+        <div class="hotspot-container">
+            <div class="hotspot" onclick="window.open('https://wa.me/5511972609596?text=confirmo%20presença%20neste%20dia%20especial')"></div>
+            <div class="hotspot" onclick="window.open('https://share.google/6qx3E2vDEtHlNS3Tq')"></div>
+            <div class="hotspot" onclick="irParaSugestao()"></div>
         </div>
-
-    <div class="copyright-hidden" aria-hidden="true">
-        © 2026 Cristiane Oliveira. Todos os direitos reservados.
     </div>
 
+    <div id="sugestao" class="page">
+        <div class="btn-x" onclick="irParaPrincipal()">✕</div>
+    </div>
+
+    <div class="copyright" aria-hidden="true">
+        <div style="display: none !important; visibility: hidden; pointer-events: none;" aria-hidden="true">
+            © 2026 Cristiane Oliveira. Todos os direitos reservados. 
+            Este software, design e algoritmos estão protegidos pela Lei de Direitos Autorais (Lei nº 9.610/98). 
+            A extração, cópia ou redistribuição deste código sem autorização expressa da Cristiane Oliveira (crispoparte) é terminantemente proibida.
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('musica');
+        
+        function iniciarAudio() {
+            audio.play().catch(e => console.log("Aguardando interação para áudio"));
+        }
+
+        function irParaSugestao() {
+            document.getElementById('principal').classList.remove('active');
+            document.getElementById('sugestao').classList.add('active');
+        }
+
+        function irParaPrincipal() {
+            document.getElementById('sugestao').classList.remove('active');
+            document.getElementById('principal').classList.add('active');
+        }
+    </script>
 </body>
 </html>
